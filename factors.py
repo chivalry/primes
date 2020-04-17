@@ -39,10 +39,25 @@ class PrimeFinder:
             self.found_primes.append(num)
         return is_p
 
+
+def prime_factors(num):
+    prime_finder = PrimeFinder()
+    if prime_finder.is_prime(num):
+        return [num]
+    facts = []
+    limit = int(num ** 0.5) + 1
+    while num > 1:
+        for candidate in range(2, limit):
+            if prime_finder.is_prime(candidate) and num % candidate == 0:
+                facts.append(candidate)
+                num //= candidate
+                if prime_finder.is_prime(num):
+                    facts.append(num)
+                    num = 1
+                    break
+    return sorted(facts)
+
 if __name__ == '__main__':
-    pf = PrimeFinder()
-    for i in range(1, 11):
-        pf.is_prime(i)
-    print(pf.found_primes)
-    pf2 = PrimeFinder()
-    print(pf2.found_primes)
+    print(prime_factors(12))
+    print(prime_factors(60))
+    print(prime_factors(23))
